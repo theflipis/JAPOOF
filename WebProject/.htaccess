@@ -1,4 +1,5 @@
 Options +FollowSymlinks
 Options +Indexes
 RewriteEngine on
-RewriteRule ^(.*)$ index.php?data=$1&cosa=$2
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(.*)$ index.php?page=$1&%1

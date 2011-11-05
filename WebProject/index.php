@@ -9,12 +9,15 @@ use lib\MetaHTML\MetaHTMLParser as MHTMLP;
 use lib\FileSystem\FileSystemTool as FSTool;
 use lib\Reflection\Reflector as Reflector;
 
-var_dump($_REQUEST);
-//@TODO: Reescribir .htaccess. Quizás crear algún script propio de recarga de módulos,
-//independiente del FrontController
+
+print_r($_REQUEST);
 
 if(!array_key_exists("RELOAD", $_REQUEST))
 {
+
+//@TODO: Reescribir .htaccess. Quizás crear algún script propio de recarga de módulos,
+//independiente del FrontController
+
 ?>
 <html>
 <style>
@@ -48,7 +51,7 @@ $files = $fst->getFiles("/home/alejandro/PRMCM", array("php", "class.php", "php"
 $moduleDef = "";
 for($i=0;$i<count($files);$i++)
 {
-    $moduleDef .= "<modules:aalmunia:testing:PhpHighlight>{\"FILE_TO_PARSE\" : \"".$files[$i]."\"}</modules:aalmunia:testing:PhpHighlight>";
+    $moduleDef .= "<modules:test:testing:PhpHighlight>{\"FILE_TO_PARSE\" : \"".$files[$i]."\"}</modules:test:testing:PhpHighlight>";
 }
 
 $parser = new MHTMLP();
@@ -57,36 +60,25 @@ $modules = $parser->parseText($moduleDef, 0);
 for($i=0;$i<count($modules);$i++)
 {    
 	$modules[$i]->render();
-    echo $modules[$i]->jsReloadSnippet();
-    //var_dump($modules[$i]);
 }
 
-
-//print_r(get_include_path());
-
-//print_r($files);
-//print_r($modules);
-//print_r($_SERVER);
-//echo "FRONT CONTROLER TO BE<br/>";
-//print_r(explode("/", $_SERVER["REQUEST_URI"]));
 echo "</pre>";
 echo $now;
 echo "<br/>";
-echo microtime();
+echo microtime() - $now;
 
 ?>
 </pre>
 </html>
-<?
+<?php
 }
 else
-{ 
-    //include_once("lib/Bootstrap/ClassAutoLoader.php");
-    //Loader::register();
-    //$parser = new MHTMLP();
-    //$modules = $parser->parseText($moduleDef, 0);
-    //echo $modules->render();
-    echo "not...";
-    die(print_r($_REQUEST));
+{
+    include_once("lib/Bootstrap/ClassAutoLoader.php");
+    Loader::register();    
+    $parser = new MHTMLP();
+    $moduleDef = "<".$_REQUEST["METATAGS"].">".json_encode($_REQUEST)."</".$_REQUEST["METATAGS"].">";
+    $module = $parser->parseText($moduleDef, 0);
+    $module[0]->renderHTML();
 }
 ?>
