@@ -25,8 +25,6 @@ class MetaHTMLParser
 		$modulesReturn = array();
 		preg_match_all($this->_nodePreg, $text, $matches, PREG_PATTERN_ORDER);		
 		
-		//print_r($matches);
-		
 		if(count($matches) > 1)
 		{				
 			for($i=0;$i<count($matches[1]);$i++)

@@ -8,7 +8,7 @@ namespace lib\Bootstrap;
  */
 class ClassAutoLoader
 {
-    static $_appRoot = "/home/alejandro/PRMCM/WebProject/";    
+    static $_appRoot = "/home/alejandro/JAPOOF/WebProject/";    
     
     /**
      * Loads a class by its namespace

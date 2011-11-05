@@ -21,6 +21,6 @@ class PhpHighlight extends AbstractModule
         $color->surroundEachCode(true);
         $color->colorize();
         //var_dump($color);
-        echo $color->getAllCode();
+        //echo $color->getAllCode();
     }
 }

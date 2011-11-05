@@ -10,7 +10,8 @@ use lib\FileSystem\FileSystemTool as FSTool;
 use lib\Reflection\Reflector as Reflector;
 
 
-print_r($_REQUEST);
+//print_r($_REQUEST);
+//passthru("pwd");
 
 if(!array_key_exists("RELOAD", $_REQUEST))
 {
@@ -37,7 +38,11 @@ code
 }
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
-<pre>
+<script type="text/javascript" src="js/Class-0.0.2.js"></script>
+<script type="text/javascript" src="js/Module.js"></script>
+<script type="text/javascript">
+var modManager = new Module;
+</script>
 <?php 
 $now = microtime();
 
@@ -45,7 +50,7 @@ include_once("lib/Bootstrap/ClassAutoLoader.php");
 Loader::register();
 
 $fst = new FSTool();
-$files = $fst->getFiles("/home/alejandro/PRMCM", array("php", "class.php", "php", "html"));
+$files = $fst->getFiles("/home/alejandro/JAPOOF", array("php", "class.php", "php", "html"));
 
 
 $moduleDef = "";
@@ -60,6 +65,7 @@ $modules = $parser->parseText($moduleDef, 0);
 for($i=0;$i<count($modules);$i++)
 {    
 	$modules[$i]->render();
+	echo "<div onClick=\"javascript:modManager.reload('0_".$i."', '0_".$i."', prefs_0_".$i.")\";><a href=\"#\">TEST RELOAD MODULE</a></div>";
 }
 
 echo "</pre>";
@@ -68,7 +74,6 @@ echo "<br/>";
 echo microtime() - $now;
 
 ?>
-</pre>
 </html>
 <?php
 }
@@ -77,8 +82,12 @@ else
     include_once("lib/Bootstrap/ClassAutoLoader.php");
     Loader::register();    
     $parser = new MHTMLP();
+	/*$params = json_encode($_REQUEST);
+	echo "<pre>";	
+	echo $params["METATAGS"];
+	die();*/
     $moduleDef = "<".$_REQUEST["METATAGS"].">".json_encode($_REQUEST)."</".$_REQUEST["METATAGS"].">";
     $module = $parser->parseText($moduleDef, 0);
-    $module[0]->renderHTML();
+    $module[0]->render();
 }
 ?>
