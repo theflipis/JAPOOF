@@ -1,0 +1,4 @@
+Options +FollowSymlinks
+Options +Indexes
+RewriteEngine on
+RewriteRule ^(.*)$ index.php?data=$1&cosa=$2
